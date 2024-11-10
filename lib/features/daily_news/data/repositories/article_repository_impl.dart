@@ -18,24 +18,22 @@ class ArticleRepositoryImpl implements ArticleRepository {
         apiKey: NEWS_API_KEY,
         country: NEWS_API_COUNTRY,
         category: NEWS_API_CATEGORY,
-    );
+      );
 
-    if(httpResponse.response.statusCode == HttpStatus.ok){
-      return DataSuccess(httpResponse.data)
-    } else {
-      return DataError(
-        DioError(
-          error: httpResponse.response.statusMessage,
-          response: httpResponse.response,
-          type: DioErrorType.response,
-          requestOptions: httpResponse.response.requestOptions,
-        ),
-      )
-    }
-    } on DioError catch (e) {
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        return DataSuccess(httpResponse.data);
+      } else {
+        return DataError(
+          DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.badResponse,
+            requestOptions: httpResponse.response.requestOptions,
+          ),
+        );
+      }
+    } on DioException catch (e) {
       return DataError(e);
-    } on SocketException catch (e) {
-      return DataError(DioError(error: e));
     }
   }
 }
