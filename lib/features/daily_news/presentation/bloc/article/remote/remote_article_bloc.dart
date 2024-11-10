@@ -19,6 +19,7 @@ class RemoteArticlesBloc extends Bloc<RemoteArticleEvent, RemoteArticleState> {
     if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
       emit(RemoteArticlesDone(articles: dataState.data!));
     } else if (dataState is DataError) {
+      print("Error: ${dataState.error!.message}");
       emit(RemoteArticlesError(error: dataState.error!));
     }
   }
